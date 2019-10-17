@@ -1,4 +1,4 @@
-# electron-vue-typescript-starter
+# electron-vue-edgejs-typescript-starter-x86
 
 ## Project setup
 ```
@@ -13,16 +13,6 @@ yarn electron:serve
 ### To Build Your App
 ```
 yarn electron:build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
 ```
 
 ### Customize configuration
