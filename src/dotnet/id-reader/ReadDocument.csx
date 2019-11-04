@@ -1,7 +1,8 @@
-using MMM.Readers;
-using MMM.Readers.FullPage;
+//Note: ignore MMM namespace errors, just provide absolute path to SDK dll file when edgeJs calls this C# script
 using System;
 using System.Threading.Tasks;
+using MMM.Readers;
+using MMM.Readers.FullPage;
 
 public class Startup
 {

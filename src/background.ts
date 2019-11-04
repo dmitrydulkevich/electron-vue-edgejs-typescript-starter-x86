@@ -4,6 +4,7 @@ import {
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib';
 const isDevelopment = process.env.NODE_ENV !== 'production';
+import * as net from 'net';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -15,7 +16,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: tru
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1200, height: 900,  webPreferences: {
+    width: 1200, height: 900, webPreferences: {
       nodeIntegration: true
     }
   });
@@ -36,6 +37,34 @@ function createWindow() {
   win.on('closed', () => {
     win = null;
   });
+}
+
+function createSocketServer() {
+  var server = net.createServer();
+
+  server.on('connection', (socket: net.Socket) => {
+    console.log('Socket connected', `${socket.remoteAddress} : ${socket.remotePort}`);
+
+    socket.on('close', (had_error: boolean) => {
+      console.log('Socket disconected', `${socket.remoteAddress} : ${socket.remotePort}`);
+    });
+
+    socket.on('data', (data: Buffer) => {
+
+      var str = data.toString('utf8');
+
+      const fs = require('fs');
+
+      fs.writeFile("C:\\temp\\test.txt", str, function (err: any) {
+
+        if (err) {
+          return console.log(err);
+        }
+      });
+    })
+  });
+
+  server.listen(9000, '127.0.0.1');
 }
 
 // Quit when all windows are closed.
@@ -75,6 +104,7 @@ app.on('ready', async () => {
 
   }
   createWindow();
+  createSocketServer();
 });
 
 // Exit cleanly on request from parent process in development mode.
